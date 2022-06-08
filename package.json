@@ -6,20 +6,29 @@
   "scripts": {
     "watch:esbuild": "node ./scripts/esbuild.js",
     "watch:app": "nodemon -r dotenv/config dist/index.js",
-    "dev": "concurrently \"npm run watch:esbuild\" \"npm run watch:app\""
+    "dev": "concurrently \"npm run watch:esbuild\" \"npm run watch:app\"",
+    "test": "vitest run",
+    "watch:test" : "vitest" 
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.41",
     "concurrently": "^7.2.1",
     "dotenv": "^16.0.1",
     "esbuild": "^0.14.43",
+    "msw": "^0.42.1",
     "nodemon": "^2.0.16",
-    "typescript": "^4.7.3"
+    "prisma": "^3.15.0",
+    "typescript": "^4.7.3",
+    "vitest": "^0.14.1"
   },
   "dependencies": {
-    "@slack/bolt": "^3.11.1"
+    "@prisma/client": "^3.15.0",
+    "@slack/bolt": "^3.11.1",
+    "express": "^4.18.1",
+    "node-fetch": "^3.2.5"
   }
 }
