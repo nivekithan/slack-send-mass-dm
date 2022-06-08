@@ -10,6 +10,7 @@ specifiers:
   esbuild: ^0.14.43
   express: ^4.18.1
   msw: ^0.42.1
+  nanoid: ^4.0.0
   node-fetch: ^3.2.5
   nodemon: ^2.0.16
   prisma: ^3.15.0
@@ -29,6 +30,7 @@ devDependencies:
   dotenv: 16.0.1
   esbuild: 0.14.43
   msw: 0.42.1_typescript@4.7.3
+  nanoid: 4.0.0
   nodemon: 2.0.16
   prisma: 3.15.0
   typescript: 4.7.3
@@ -1875,6 +1877,12 @@ packages:
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: true
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
     hasBin: true
     dev: true
 

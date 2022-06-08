@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,23 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Jobs {
+  id            String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  finished      Boolean        @default(false)
+  message       String
+  user_ids      String[]
+  sent_messages SentMessages[]
+}
+
+model SentMessages {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  message    String
+  user_id    String
+  jobsId     String   @db.Uuid
+  job        Jobs     @relation(fields: [jobsId], references: [id])
+
 }
