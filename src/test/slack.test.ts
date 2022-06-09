@@ -9,7 +9,7 @@ import {
   it,
 } from "vitest";
 import { prisma } from "../prisma";
-import { Slack } from "../slack";
+import { Slack as SlackQueue } from "../slack.queue";
 import {
   getRequests,
   postRequest,
@@ -19,6 +19,7 @@ import {
 } from "./testServer";
 import { nanoid } from "nanoid";
 import { execSync } from "child_process";
+import { addSendBulkMessageJob } from "../messageQueue";
 
 beforeAll(() => {
   startTestServer();
@@ -37,19 +38,24 @@ afterEach(() => {
   resetGetAndPostRequests();
 });
 
-describe("Testing Slack api implementation", () => {
-  it("Test starting a job", async () => {
+describe("Testing queue implementation", () => {
+  it("Test Starting a job", async () => {
     const userIds = [nanoid(), nanoid(), nanoid(), nanoid()];
-    const jobId = await Slack.registerJob(userIds, "Hello There");
+    const message = "Hello There";
 
-    await Slack.sendDmToAll(userIds, "Hello There", jobId);
+    const jobId = await SlackQueue.registerJob(userIds, message);
+
+    await addSendBulkMessageJob({ jobId, message, userIds });
+
+    // TODO: Find better way to know when all jobs are done
+    await new Promise((r) => setTimeout(r, 100));
 
     expect(postRequest).toEqual(
       userIds.map((userId) => {
         return {
           type: "sendDmTo",
           userId,
-          message: "Hello There",
+          message,
           jobId: jobId,
         };
       })
@@ -60,7 +66,7 @@ describe("Testing Slack api implementation", () => {
     });
 
     expect(registeredJob.finished).toEqual(true);
-    expect(registeredJob.message).toEqual("Hello There");
+    expect(registeredJob.message).toEqual(message);
     expect(registeredJob.user_ids).toEqual(userIds);
 
     const allSentMessages = await prisma.sentMessages.findMany({
@@ -73,33 +79,7 @@ describe("Testing Slack api implementation", () => {
       );
 
       expect(sentMessage.jobsId).toEqual(jobId);
-      expect(sentMessage.message).toEqual("Hello There");
+      expect(sentMessage.message).toEqual(message);
     });
   });
-
-  it("Test restarting job", async () => {
-    const usersIds: string[] = [];
-
-    for (let i = 0; i <= 100; i++) {
-      usersIds.push(nanoid());
-    }
-
-    const jobId = await Slack.registerJob(usersIds, "Should Restart jobs");
-
-    await Slack.restartMessageJobs();
-
-    const job = await prisma.jobs.findUnique({ where: { id: jobId } });
-
-    expect(job.finished).toEqual(true);
-
-    await Promise.all(
-      usersIds.map(async (userId) => {
-        const sentMessage = await prisma.sentMessages.findMany({
-          where: { user_id: userId, jobsId: jobId },
-        });
-
-        expect(sentMessage.length).toEqual(1);
-      })
-    );
-  }, 5_000);
 });

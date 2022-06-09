@@ -3,7 +3,9 @@ import assert from "assert";
 export type EnvVariablesName =
   | "SLACK_BOT_TOKEN"
   | "SLACK_SIGNING_SECRET"
-  | "SLACK_APP_TOKEN";
+  | "SLACK_APP_TOKEN"
+  | "REDIS_HOST"
+  | "REDIS_PORT";
 
 export const getEnvVar = (name: EnvVariablesName) => {
   const envValue = process.env[name] as string | undefined;
