@@ -23,7 +23,7 @@ const redisConnection = new IoRedis({
   port: parseInt(getEnvVar("REDIS_PORT"), 10),
   maxRetriesPerRequest: null,
 });
-
+  
 export const MessageQueue = new Queue<MessageJob | BulkMessageJob>(
   MESSAGE_QUEUE_NAME,
   { connection: redisConnection }

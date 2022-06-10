@@ -16,6 +16,7 @@ specifiers:
   node-fetch: ^3.2.5
   nodemon: ^2.0.16
   prisma: ^3.15.0
+  slack-block-builder: ^2.5.0
   typescript: ^4.7.3
   vitest: ^0.14.1
 
@@ -26,6 +27,7 @@ dependencies:
   express: 4.18.1
   ioredis: 5.0.6
   node-fetch: 3.2.5
+  slack-block-builder: 2.5.0
 
 devDependencies:
   '@types/express': 4.17.13
@@ -2591,6 +2593,10 @@ packages:
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
     dev: true
+
+  /slack-block-builder/2.5.0:
+    resolution: {integrity: sha512-Gekb6jSKmyZtYXFrMXN637/FttYiUFvcoDeKt5epcwTDggxQvtw/Q3aO5eR4JNe5UW2JoSGao+6GX3NZf2yceA==}
+    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
